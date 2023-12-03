@@ -5,6 +5,6 @@ app.get('/', (req, res) => {
   res.send('Esta é a versão 2 da aplicação!');
 });
 
-app.listen(3001, () => {
-  console.log('App-v2 está rodando na porta 3001!');
+app.listen(3000, () => {
+  console.log('App-v2 está rodando na porta 3000!');
 });
