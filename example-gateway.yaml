@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: bookinfo-gateway
+  name: example-gateway
 spec:
   # The selector matches the ingress gateway pod labels.
   # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
@@ -18,16 +18,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: bookinfo
+  name: example
 spec:
   hosts:
   - "*"
   gateways:
-  - bookinfo-gateway
+  - example-gateway
   http:
   - route:
     - destination:
-        host: reviews
+        host: example
         subset: v1
         port:
           number: 9080
@@ -37,7 +37,7 @@ spec:
           regex: ".*Firefox.*"  # Roteamento para Firefox
   - route:
     - destination:
-        host: reviews
+        host: example
         subset: v2
         port:
           number: 9080
