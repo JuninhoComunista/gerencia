@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: app-gateway
+  name: bookinfo-gateway
 spec:
   # The selector matches the ingress gateway pod labels.
   # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
@@ -18,22 +18,30 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: user-agent-routing
+  name: bookinfo
 spec:
   hosts:
   - "*"
   gateways:
-  - app-gateway
+  - bookinfo-gateway
   http:
-  - match:
+  - route:
+    - destination:
+        host: reviews
+        subset: v1
+        port:
+          number: 9080
+    match:
     - headers:
         user-agent:
           regex: ".*Firefox.*"  # Roteamento para Firefox
-    route:
-    - destination:
-        host: app
-        subset: v2
   - route:
     - destination:
-        host: app
-        subset: v1  # Roteamento padrão se o cabeçalho não corresponder a nenhum dos padrões acima
+        host: reviews
+        subset: v2
+        port:
+          number: 9080
+    match:
+    - headers:
+        user-agent:
+          regex: ".*Chrome.*"  # Roteamento para Chrome
